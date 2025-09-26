@@ -30,14 +30,16 @@ namespace WebAPI_CRUD.Implementations
             return Task.CompletedTask.IsCompletedSuccessfully;
         }
 
-        public async Task<Employee?> GetEmployee(Guid id)
+        public async Task<Employee> GetEmployee(Guid id)
         {
-            return await _context.Employees.FirstOrDefaultAsync(x => x.Id == id) ?? null;
+            return await _context.Employees
+                .Include(x => x.Department)
+                .FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<Employee?> GetEmployeeByEmail(string email)
+        public async Task<Employee> GetEmployeeByEmail(string email)
         {
-            return await _context.Employees.FirstOrDefaultAsync(x => x.Email == email) ?? null;
+            return await _context.Employees.FirstOrDefaultAsync(x => x.Email == email);
         }
 
         public async Task<IEnumerable<Employee>> GetEmployees()
@@ -60,7 +62,7 @@ namespace WebAPI_CRUD.Implementations
             return query;
         }
 
-        public async Task<Employee?> UpdateEmployee(Employee employee)
+        public async Task<Employee> UpdateEmployee(Employee employee)
         {
             var existingEmployee = await _context.Employees.FirstOrDefaultAsync(x => x.Id == employee.Id);
             if (existingEmployee != null)
