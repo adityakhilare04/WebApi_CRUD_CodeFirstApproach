@@ -9,6 +9,6 @@
         public DateOnly DateOfBirth { get; set; }
         public Gender Gender { get; set; }
         public Guid DepartmentId { get; set; }
-        public Department Department { get; set; }
+        public Department? Department { get; set; }
     }
 }

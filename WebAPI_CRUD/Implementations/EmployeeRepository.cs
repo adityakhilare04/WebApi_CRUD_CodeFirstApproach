@@ -13,6 +13,11 @@ namespace WebAPI_CRUD.Implementations
         }
         public async Task<Employee> AddEmployee(Employee employee)
         {
+            //Just to ignore the Department property.
+            if (employee.Department != null)
+            {
+                _context.Entry(employee.Department).State = EntityState.Unchanged;
+            }
             var result = await _context.AddAsync(employee);
             await _context.SaveChangesAsync();
             return result.Entity;

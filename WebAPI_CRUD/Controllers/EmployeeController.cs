@@ -28,7 +28,7 @@ namespace WebAPI_CRUD.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [Produces(MediaTypeNames.Application.Json)]
-        public async Task<IActionResult> GetEmployeeById([FromQuery] Guid id)
+        public async Task<IActionResult> GetEmployeeById([FromRoute] Guid id)
         {
             try
             {
