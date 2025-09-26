@@ -13,7 +13,7 @@ namespace WebAPI_CRUD.Controllers
         private readonly IEmployeeRepository _employeeRepository;
         public EmployeeController(IEmployeeRepository employeeRepository)
         {
-                this._employeeRepository = employeeRepository;
+            this._employeeRepository = employeeRepository;
         }
 
         [HttpGet]
@@ -33,7 +33,7 @@ namespace WebAPI_CRUD.Controllers
             try
             {
                 var employee = await _employeeRepository.GetEmployee(id);
-                if(employee == null)
+                if (employee == null)
                 {
                     return NotFound();
                 }
@@ -138,4 +138,5 @@ namespace WebAPI_CRUD.Controllers
                 throw;
             }
         }
+    }
 }
