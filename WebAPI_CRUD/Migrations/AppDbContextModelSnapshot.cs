@@ -34,7 +34,7 @@ namespace WebAPI_CRUD.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Departments");
+                    b.ToTable("Departments", (string)null);
                 });
 
             modelBuilder.Entity("WebAPI_CRUD.Models.Employee", b =>
@@ -68,7 +68,7 @@ namespace WebAPI_CRUD.Migrations
 
                     b.HasIndex("DepartmentId");
 
-                    b.ToTable("Employees");
+                    b.ToTable("Employees", (string)null);
                 });
 
             modelBuilder.Entity("WebAPI_CRUD.Models.Employee", b =>

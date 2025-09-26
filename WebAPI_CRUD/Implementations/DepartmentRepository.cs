@@ -11,7 +11,7 @@ namespace WebAPI_CRUD.Implementations
         {
             this._context = context;
         }
-        public async Task<Department> AddDeaprtment(string name)
+        public async Task<Department> AddDepartment(string name)
         {
             Department department = new Department()
             {

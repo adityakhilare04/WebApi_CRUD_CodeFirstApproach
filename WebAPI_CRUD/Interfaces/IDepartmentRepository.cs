@@ -6,6 +6,6 @@ namespace WebAPI_CRUD.Interfaces
     {
         Task<IEnumerable<Department>> GetAllDepartments();
         Task<Department> GetDepartmentById(Guid id);
-        Task<Department> AddDeaprtment(string name);
+        Task<Department> AddDepartment(string name);
     }
 }

@@ -35,7 +35,7 @@ namespace WebAPI_CRUD.Controllers
                 var employee = await _employeeRepository.GetEmployee(id);
                 if (employee == null)
                 {
-                    return NotFound();
+                    return NotFound($"Employee with Id:{id} not found.");
                 }
                 return Ok(employee);
             }
@@ -46,7 +46,10 @@ namespace WebAPI_CRUD.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpGet("{email}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Produces(MediaTypeNames.Application.Json)]
         public async Task<IActionResult> GetEmployeeByEmail([FromQuery] string email)
         {
             try
@@ -54,7 +57,7 @@ namespace WebAPI_CRUD.Controllers
                 var employee = await _employeeRepository.GetEmployeeByEmail(email);
                 if (employee == null)
                 {
-                    return NotFound();
+                    return NotFound($"Employee with email:{email} not found.");
                 }
                 return Ok(employee);
             }
@@ -65,6 +68,8 @@ namespace WebAPI_CRUD.Controllers
         }
 
         [HttpGet("search")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [Produces(MediaTypeNames.Application.Json)]
         public async Task<IActionResult> Search([FromQuery] string name, [FromQuery] Gender? gender)
         {
             try
@@ -87,7 +92,7 @@ namespace WebAPI_CRUD.Controllers
             {
                 if (employee == null)
                 {
-                    return BadRequest();
+                    return BadRequest("Employee can't be null.");
                 }
                 var result = await _employeeRepository.AddEmployee(employee);
                 return CreatedAtAction(nameof(GetEmployeeById), new { id = result.Id }, result);
@@ -100,6 +105,9 @@ namespace WebAPI_CRUD.Controllers
         }
 
         [HttpDelete]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Produces(MediaTypeNames.Application.Json)]
         public async Task<IActionResult> DeleteEmployee([FromQuery] Guid id)
         {
             try
@@ -107,7 +115,7 @@ namespace WebAPI_CRUD.Controllers
                 var result = await _employeeRepository.DeleteEmployee(id);
                 if (!result)
                 {
-                    return NotFound();
+                    return NotFound($"Employee with Id:{id} not found.");
                 }
                 return NoContent();
             }
@@ -117,6 +125,10 @@ namespace WebAPI_CRUD.Controllers
             }
         }
         [HttpPut]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Produces(MediaTypeNames.Application.Json)]
         public async Task<IActionResult> UpdateEmployee([FromBody] Employee employee)
         {
             try
