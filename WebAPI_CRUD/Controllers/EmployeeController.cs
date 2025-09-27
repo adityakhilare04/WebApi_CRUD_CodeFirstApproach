@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
+using WebAPI_CRUD.DTOs;
 using WebAPI_CRUD.Interfaces;
 using WebAPI_CRUD.Models;
 
@@ -50,7 +51,7 @@ namespace WebAPI_CRUD.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [Produces(MediaTypeNames.Application.Json)]
-        public async Task<IActionResult> GetEmployeeByEmail([FromQuery] string email)
+        public async Task<IActionResult> GetEmployeeByEmail([FromRoute] string email)
         {
             try
             {
@@ -70,7 +71,7 @@ namespace WebAPI_CRUD.Controllers
         [HttpGet("search")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [Produces(MediaTypeNames.Application.Json)]
-        public async Task<IActionResult> Search([FromQuery] string name, [FromQuery] Gender? gender)
+        public async Task<IActionResult> Search([FromQuery] string? name, [FromQuery] Gender? gender)
         {
             try
             {
@@ -86,7 +87,7 @@ namespace WebAPI_CRUD.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Produces(MediaTypeNames.Application.Json)]
-        public async Task<IActionResult> AddEmployee([FromBody] Employee employee)
+        public async Task<IActionResult> AddEmployee([FromBody] EmployeeDto employee)
         {
             try
             {
@@ -129,7 +130,7 @@ namespace WebAPI_CRUD.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [Produces(MediaTypeNames.Application.Json)]
-        public async Task<IActionResult> UpdateEmployee([FromBody] Employee employee)
+        public async Task<IActionResult> UpdateEmployee([FromQuery] Guid id, [FromBody] EmployeeDto employee)
         {
             try
             {
@@ -137,12 +138,13 @@ namespace WebAPI_CRUD.Controllers
                 {
                     return BadRequest();
                 }
-                var existingEmployee = await _employeeRepository.GetEmployee(employee.Id);
-                if (existingEmployee == null)
+            
+                var result = await _employeeRepository.UpdateEmployee(id, employee);
+
+                if (result == null)
                 {
-                    return NotFound();
+                    return NotFound($"Employee with Id:{id} not found.");
                 }
-                var result = await _employeeRepository.UpdateEmployee(employee);
                 return Ok(result);
             }
             catch (Exception)

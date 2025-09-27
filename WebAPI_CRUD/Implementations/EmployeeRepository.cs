@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using WebAPI_CRUD.DTOs;
 using WebAPI_CRUD.Interfaces;
 using WebAPI_CRUD.Models;
 
@@ -11,14 +12,19 @@ namespace WebAPI_CRUD.Implementations
         {
             this._context = context;
         }
-        public async Task<Employee> AddEmployee(Employee employee)
+        public async Task<Employee> AddEmployee(EmployeeDto employee)
         {
-            //Just to ignore the Department property.
-            if (employee.Department != null)
+            Employee emp = new Employee()
             {
-                _context.Entry(employee.Department).State = EntityState.Unchanged;
-            }
-            var result = await _context.AddAsync(employee);
+                Id = Guid.NewGuid(),
+                FirstName = employee.FirstName,
+                LastName = employee.LastName,
+                Email = employee.Email,
+                DateOfBirth = employee.DateOfBirth,
+                DepartmentId = employee.DepartmentId,
+                Gender = employee.Gender
+            };
+            var result = await _context.AddAsync(emp);
             await _context.SaveChangesAsync();
             return result.Entity;
         }
@@ -44,7 +50,7 @@ namespace WebAPI_CRUD.Implementations
 
         public async Task<Employee> GetEmployeeByEmail(string email)
         {
-            return await _context.Employees.FirstOrDefaultAsync(x => x.Email == email);
+            return await _context.Employees.FirstOrDefaultAsync(x => x.Email.ToLower() == email.ToLower());
         }
 
         public async Task<IEnumerable<Employee>> GetEmployees()
@@ -57,9 +63,10 @@ namespace WebAPI_CRUD.Implementations
             var query = _context.Employees.AsEnumerable();
             if (!string.IsNullOrEmpty(name))
             {
-                query = query.Where(x => name.Contains(x.FirstName) || name.Contains(x.LastName));
+                query = query.Where(x => x.FirstName.Contains(name, StringComparison.OrdinalIgnoreCase) 
+                    || x.LastName.Contains(name, StringComparison.OrdinalIgnoreCase));
             }
-            if(gender != null)
+            if (gender != null)
             {
                 query = query.Where(x => x.Gender == gender);
             }
@@ -67,9 +74,9 @@ namespace WebAPI_CRUD.Implementations
             return query;
         }
 
-        public async Task<Employee> UpdateEmployee(Employee employee)
+        public async Task<Employee> UpdateEmployee(Guid id, EmployeeDto employee)
         {
-            var existingEmployee = await _context.Employees.FirstOrDefaultAsync(x => x.Id == employee.Id);
+            var existingEmployee = await _context.Employees.FirstOrDefaultAsync(x => x.Id == id);
             if (existingEmployee != null)
             {
                 existingEmployee.Email = employee.Email;
