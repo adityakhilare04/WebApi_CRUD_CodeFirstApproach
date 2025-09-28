@@ -23,5 +23,9 @@ namespace NetworkUtility
             return DateTime.Now;
         }
 
+        public Employee GetEmployee()
+        {
+            return new Employee { Id = 1, Name = "Virat Kohli" };
+        }
     }
 }

@@ -68,5 +68,21 @@ namespace NetworkUtility.Tests
             Assert.InRange(result, beforeCall, afterCall);
             Assert.IsType<DateTime>(result);
         }
+
+        [Fact]
+        public void NetworkUtility_GetEmployee_ReturnsExpectedEmployee()
+        {
+            // Arrange
+            NetworkUtility networkUtility = new NetworkUtility();
+            int expectedId = 1;
+            string expectedName = "Virat Kohli";
+            // Act
+            var result = networkUtility.GetEmployee();
+            // Assert
+            Assert.NotNull(result);
+            Assert.IsType<Employee>(result);
+            Assert.Equal(expectedId, result.Id);
+            Assert.Equal(expectedName, result.Name);
+        }
     }
 }
