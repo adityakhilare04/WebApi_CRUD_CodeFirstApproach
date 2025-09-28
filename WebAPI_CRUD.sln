@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPI_CRUD", "WebAPI_CRUD\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPI_CRUD.Tests", "WebAPI_CRUD.Tests\WebAPI_CRUD.Tests.csproj", "{CC373A4D-0113-43E0-B989-B2BC75400663}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetworkUtility", "NetworkUtility\NetworkUtility.csproj", "{08CA1E19-7772-402C-B340-AA13F5E05430}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetworkUtility.Tests", "NetworkUtility.Tests\NetworkUtility.Tests.csproj", "{B4B769DD-8DA0-49AB-B78B-1DCA1F6D4399}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,8 +25,19 @@ Global
 		{CC373A4D-0113-43E0-B989-B2BC75400663}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC373A4D-0113-43E0-B989-B2BC75400663}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CC373A4D-0113-43E0-B989-B2BC75400663}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08CA1E19-7772-402C-B340-AA13F5E05430}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08CA1E19-7772-402C-B340-AA13F5E05430}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08CA1E19-7772-402C-B340-AA13F5E05430}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08CA1E19-7772-402C-B340-AA13F5E05430}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4B769DD-8DA0-49AB-B78B-1DCA1F6D4399}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4B769DD-8DA0-49AB-B78B-1DCA1F6D4399}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4B769DD-8DA0-49AB-B78B-1DCA1F6D4399}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4B769DD-8DA0-49AB-B78B-1DCA1F6D4399}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {90010EC0-4E2C-4CF1-8D96-7168AC3B4B5F}
 	EndGlobalSection
 EndGlobal
