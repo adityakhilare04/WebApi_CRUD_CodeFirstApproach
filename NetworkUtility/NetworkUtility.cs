@@ -8,9 +8,15 @@ namespace NetworkUtility
 {
     public class NetworkUtility
     {
-        public static string GetNetworkInfo()
+        public string GetNetworkInfo()
         {
             return "Network Info";
         }
+
+        public int Add(int a, int b)
+        {
+            return a + b;
+        }
+
     }
 }
