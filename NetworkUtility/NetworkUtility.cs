@@ -18,5 +18,10 @@ namespace NetworkUtility
             return a + b;
         }
 
+        public DateTime GetDateTime()
+        {
+            return DateTime.Now;
+        }
+
     }
 }

@@ -53,5 +53,20 @@ namespace NetworkUtility.Tests
             // Assert
             Assert.Equal(expectedResult, result);
         }
+
+        [Fact]
+        public void NetworkUtility_GetDateTime_ReturnsCurrentDateTime()
+        {
+            // Arrange
+            NetworkUtility networkUtility = new NetworkUtility();
+            DateTime beforeCall = DateTime.Now;
+            // Act
+            var result = networkUtility.GetDateTime();
+            DateTime afterCall = DateTime.Now;
+            // Assert
+            Assert.True(result >= beforeCall && result <= afterCall);
+            Assert.InRange(result, beforeCall, afterCall);
+            Assert.IsType<DateTime>(result);
+        }
     }
 }
