@@ -1,4 +1,6 @@
-﻿using System;
+﻿using FakeItEasy;
+using NetworkUtility.Interface;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,16 +11,24 @@ namespace NetworkUtility.Tests
     
     public class NetworkUtilityTests
     {
+        private readonly NetworkUtility _networkUtility;
+        private readonly IDnsRepository _dnsRepository;
+        public NetworkUtilityTests(NetworkUtility networkUtility)
+        {
+            _dnsRepository = A.Fake<IDnsRepository>();
+            _networkUtility = networkUtility;
+        }
+
         [Fact]
         //Function Naming convention --> classname_methodname_expectedbehavior
         public void NetworkUtility_GetNetworkInfo_ReturnsExpectedString() 
         {
             // Arrange
-            NetworkUtility networkUtility = new NetworkUtility();
+            //NetworkUtility networkUtility = new NetworkUtility();
             string expected = "Network Info";
 
             // Act
-            var result = networkUtility.GetNetworkInfo();
+            var result = _networkUtility.GetNetworkInfo();
 
             // Assert
             Assert.Equal(expected, result);
@@ -28,12 +38,12 @@ namespace NetworkUtility.Tests
         public void NetworkUtility_Add_ReturnsCorrectSum()
         {
             //Arrange
-            NetworkUtility networkUtility = new NetworkUtility();
+            //NetworkUtility networkUtility = new NetworkUtility();
             int a = 5;
             int b = 10;
             int expectedSum = 15;
             // Act
-            var result = networkUtility.Add(a, b);
+            var result = _networkUtility.Add(a, b);
             // Assert
             Assert.Equal(expectedSum, result);
         }
@@ -45,10 +55,10 @@ namespace NetworkUtility.Tests
         public void NetworkUtility_Add_ExpectsCorrectSum(int a, int b, int expectedResult)
         {
             //Arrange
-            NetworkUtility networkUtility = new NetworkUtility();
+            //NetworkUtility networkUtility = new NetworkUtility();
 
             // Act
-            var result = networkUtility.Add(a, b);
+            var result = _networkUtility.Add(a, b);
 
             // Assert
             Assert.Equal(expectedResult, result);
@@ -58,10 +68,10 @@ namespace NetworkUtility.Tests
         public void NetworkUtility_GetDateTime_ReturnsCurrentDateTime()
         {
             // Arrange
-            NetworkUtility networkUtility = new NetworkUtility();
+            //NetworkUtility networkUtility = new NetworkUtility();
             DateTime beforeCall = DateTime.Now;
             // Act
-            var result = networkUtility.GetDateTime();
+            var result = _networkUtility.GetDateTime();
             DateTime afterCall = DateTime.Now;
             // Assert
             Assert.True(result >= beforeCall && result <= afterCall);
@@ -73,11 +83,11 @@ namespace NetworkUtility.Tests
         public void NetworkUtility_GetEmployee_ReturnsExpectedEmployee()
         {
             // Arrange
-            NetworkUtility networkUtility = new NetworkUtility();
+            //NetworkUtility networkUtility = new NetworkUtility();
             int expectedId = 1;
             string expectedName = "Virat Kohli";
             // Act
-            var result = networkUtility.GetEmployee();
+            var result = _networkUtility.GetEmployee();
             // Assert
             Assert.NotNull(result);
             Assert.IsType<Employee>(result);

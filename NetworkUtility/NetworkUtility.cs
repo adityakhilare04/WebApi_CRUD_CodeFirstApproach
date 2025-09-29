@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NetworkUtility.Interface;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NetworkUtility
 {
-    public class NetworkUtility
+    public class NetworkUtility(IDnsRepository _dnsRepository)
     {
         public string GetNetworkInfo()
         {
@@ -26,6 +27,12 @@ namespace NetworkUtility
         public Employee GetEmployee()
         {
             return new Employee { Id = 1, Name = "Virat Kohli" };
+        }
+
+        public string GetStatus()
+        {
+            var IsSuccess = _dnsRepository.GetStatus();
+            return IsSuccess ? "Success" : "Failed";
         }
     }
 }
