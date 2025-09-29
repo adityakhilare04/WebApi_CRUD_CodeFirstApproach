@@ -13,10 +13,10 @@ namespace NetworkUtility.Tests
     {
         private readonly NetworkUtility _networkUtility;
         private readonly IDnsRepository _dnsRepository;
-        public NetworkUtilityTests(NetworkUtility networkUtility)
+        public NetworkUtilityTests()
         {
             _dnsRepository = A.Fake<IDnsRepository>();
-            _networkUtility = networkUtility;
+           _networkUtility = new NetworkUtility(_dnsRepository);
         }
 
         [Fact]
@@ -93,6 +93,19 @@ namespace NetworkUtility.Tests
             Assert.IsType<Employee>(result);
             Assert.Equal(expectedId, result.Id);
             Assert.Equal(expectedName, result.Name);
+        }
+
+        [Fact]
+        public void NetworkUtility_GetStatus_ReturnsSuccessWhenDnsRepositoryReturnsTrue()
+        {
+            // Arrange
+            //NetworkUtility networkUtility = new NetworkUtility();
+            A.CallTo(() => _dnsRepository.GetStatus()).Returns(true);
+            string expected = "Success";
+            // Act
+            var result = _networkUtility.GetStatus();
+            // Assert
+            Assert.Equal(expected, result);
         }
     }
 }
