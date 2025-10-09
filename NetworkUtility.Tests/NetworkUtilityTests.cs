@@ -16,7 +16,7 @@ namespace NetworkUtility.Tests
         public NetworkUtilityTests()
         {
             _dnsRepository = A.Fake<IDnsRepository>();
-           _networkUtility = new NetworkUtility(_dnsRepository);
+            _networkUtility = new NetworkUtility(_dnsRepository);
         }
 
         [Fact]
@@ -24,7 +24,6 @@ namespace NetworkUtility.Tests
         public void NetworkUtility_GetNetworkInfo_ReturnsExpectedString() 
         {
             // Arrange
-            //NetworkUtility networkUtility = new NetworkUtility();
             string expected = "Network Info";
 
             // Act
@@ -38,7 +37,6 @@ namespace NetworkUtility.Tests
         public void NetworkUtility_Add_ReturnsCorrectSum()
         {
             //Arrange
-            //NetworkUtility networkUtility = new NetworkUtility();
             int a = 5;
             int b = 10;
             int expectedSum = 15;
@@ -55,7 +53,6 @@ namespace NetworkUtility.Tests
         public void NetworkUtility_Add_ExpectsCorrectSum(int a, int b, int expectedResult)
         {
             //Arrange
-            //NetworkUtility networkUtility = new NetworkUtility();
 
             // Act
             var result = _networkUtility.Add(a, b);
@@ -68,7 +65,6 @@ namespace NetworkUtility.Tests
         public void NetworkUtility_GetDateTime_ReturnsCurrentDateTime()
         {
             // Arrange
-            //NetworkUtility networkUtility = new NetworkUtility();
             DateTime beforeCall = DateTime.Now;
             // Act
             var result = _networkUtility.GetDateTime();
@@ -83,7 +79,6 @@ namespace NetworkUtility.Tests
         public void NetworkUtility_GetEmployee_ReturnsExpectedEmployee()
         {
             // Arrange
-            //NetworkUtility networkUtility = new NetworkUtility();
             int expectedId = 1;
             string expectedName = "Virat Kohli";
             // Act
@@ -99,7 +94,6 @@ namespace NetworkUtility.Tests
         public void NetworkUtility_GetStatus_ReturnsSuccessWhenDnsRepositoryReturnsTrue()
         {
             // Arrange
-            //NetworkUtility networkUtility = new NetworkUtility();
             A.CallTo(() => _dnsRepository.GetStatus()).Returns(true);
             string expected = "Success";
             // Act
