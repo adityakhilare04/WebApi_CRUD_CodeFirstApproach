@@ -125,6 +125,8 @@ namespace WebAPI_CRUD.Controllers
                 throw;
             }
         }
+
+
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -136,7 +138,7 @@ namespace WebAPI_CRUD.Controllers
             {
                 if (employee == null)
                 {
-                    return BadRequest();
+                    return BadRequest("Employee can not be null.");
                 }
             
                 var result = await _employeeRepository.UpdateEmployee(id, employee);

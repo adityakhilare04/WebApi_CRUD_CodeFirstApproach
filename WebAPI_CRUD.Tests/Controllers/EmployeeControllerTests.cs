@@ -261,5 +261,109 @@ public class EmployeeControllerTests
         Assert.IsType<BadRequestObjectResult>(result);
     }
 
+    [Fact]
+    public void EmployeeController_UpdateEmployee_ReturnsOkResult_WhenEmployeeIsUpdated()
+    {
+        // Arrange
+        var employeeId = Guid.NewGuid();
+        var updateEmployee = GetSampleEmployee();
+        var updatedEmployee = A.Fake<Employee>();
+        A.CallTo(() => _employeeRepository.UpdateEmployee(employeeId, updateEmployee)).Returns(updatedEmployee);
+        // Act
+        var result = _employeeController.UpdateEmployee(employeeId, updateEmployee).Result;
+        // Assert
+        result.Should().BeOfType<OkObjectResult>();
+        Assert.IsType<OkObjectResult>(result);
+    }
 
+    [Fact]
+    public void EmployeeController_UpdateEmployee_ReturnsNotFoundResult_WhenEmployeeDoesNotExist()
+    {
+        // Arrange
+        var employeeId = Guid.NewGuid();
+        var updateEmployee = GetSampleEmployee();
+        A.CallTo(() => _employeeRepository.UpdateEmployee(employeeId, updateEmployee)).Returns((Employee?)null);
+        // Act
+        var result = _employeeController.UpdateEmployee(employeeId, updateEmployee).Result;
+        // Assert
+        result.Should().BeOfType<NotFoundObjectResult>();
+        Assert.IsType<NotFoundObjectResult>(result);
+    }
+
+    [Fact]
+    public void EmployeeController_UpdateEmployee_ThrowsException_WhenRepositoryThrowsException()
+    {
+        // Arrange
+        var employeeId = Guid.NewGuid();
+        var updateEmployee = GetSampleEmployee();
+        A.CallTo(() => _employeeRepository.UpdateEmployee(employeeId, updateEmployee)).Throws(new Exception("Database error"));
+        // Act
+        Action act = () => _employeeController.UpdateEmployee(employeeId, updateEmployee).Wait();
+        // Assert
+        act.Should().Throw<AggregateException>()
+            .WithInnerException<Exception>()
+            .WithMessage("Database error");
+        Assert.Throws<AggregateException>(() => _employeeController.UpdateEmployee(employeeId, updateEmployee).Wait());
+    }
+
+    [Fact]
+    public void EmployeeController_UpdateEmployee_ReturnsBadRequest_WhenModelStateIsInvalid()
+    {
+        // Arrange
+        var employeeId = Guid.NewGuid();
+        EmployeeDto updateEmployee = null;
+        // Act
+        var result = _employeeController.UpdateEmployee(employeeId, updateEmployee).Result;
+        // Assert
+        result.Should().BeOfType<BadRequestObjectResult>();
+        Assert.IsType<BadRequestObjectResult>(result);
+    }
+
+    [Fact]
+    public void EmployeeController_DeleteEmployee_ReturnsOkResult()
+    {
+        //Arrange
+        var employeeId = Guid.NewGuid();
+        bool isDeleted = true;
+        A.CallTo(() => _employeeRepository.DeleteEmployee(employeeId)).Returns(isDeleted);
+
+        //Act
+        var result = _employeeController.DeleteEmployee(employeeId).Result;
+
+        //Assert
+        result.Should().BeOfType<NoContentResult>(); 
+        Assert.IsType<NoContentResult>(result);
+    }
+
+    [Fact]
+    public void EmployeeController_DeleteEmployee_ReturnsNotFoundResult_WhenEmployeeDoesNotExist() 
+    {
+        // Arrange
+        var employeeId = Guid.NewGuid();
+        bool isDeleted = false;
+        A.CallTo(() => _employeeRepository.DeleteEmployee(employeeId)).Returns(isDeleted);
+
+        // Act
+        var result = _employeeController.DeleteEmployee(employeeId).Result;
+
+        // Assert
+        result.Should().BeOfType<NotFoundObjectResult>();
+        Assert.IsType<NotFoundObjectResult>(result);
+
+    }
+
+    [Fact]
+    public void EmployeeController_DeleteEmployee_ThrowsException_WhenRepositoryThrowsException()
+    {
+        // Arrange
+        var employeeId = Guid.NewGuid();
+        A.CallTo(() => _employeeRepository.DeleteEmployee(employeeId)).Throws(new Exception("Database error"));
+        // Act
+        Action act = () => _employeeController.DeleteEmployee(employeeId).Wait();
+        // Assert
+        act.Should().Throw<AggregateException>()
+            .WithInnerException<Exception>()
+            .WithMessage("Database error");
+        Assert.Throws<AggregateException>(() => _employeeController.DeleteEmployee(employeeId).Wait());
+    }
 }
