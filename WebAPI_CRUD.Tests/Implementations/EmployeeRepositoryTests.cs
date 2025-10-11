@@ -60,4 +60,47 @@ public class EmployeeRepositoryTests
         Assert.IsType<bool>(result);
         Assert.True(result);
     }
+
+    [Fact]
+    public async Task EmployeeRepository_DeleteEmployee_ShouldReturnFalse_WhenEmployeeNotPresent()
+    {
+        // Arrange
+        var context = GetInMemoryContext();
+        var repository = new EmployeeRepository(context);
+        var employeeId = Guid.NewGuid();
+
+        // Act
+        var result = await repository.DeleteEmployee(employeeId);
+
+        // Assert
+        Assert.IsType<bool>(result);
+        Assert.False(result);
+    }
+
+    [Fact]
+    public async Task EmployeeRepository_GetEmployee_ReturnsEmployee()
+    {
+        // Arrange
+        var context = GetInMemoryContext();
+        var empRepository = new EmployeeRepository(context);
+        var deptRepository = new DepartmentRepository(context);
+        var deptEntity = await deptRepository.AddDepartment("IT");
+        var newEmployee = GetSampleEmployee();
+        newEmployee.DepartmentId = deptEntity.Id;
+        newEmployee.Department = new Department
+        {
+            Id = newEmployee.DepartmentId,
+            Name = "IT"
+        };
+        var entity = await empRepository.AddEmployee(newEmployee);
+
+        // Act
+        var result = await empRepository.GetEmployee(entity.Id);
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.IsType<Employee>(result);
+        Assert.Equal("John", result.FirstName);
+        Assert.Equal(entity.Id, result.Id);
+    }
 }
