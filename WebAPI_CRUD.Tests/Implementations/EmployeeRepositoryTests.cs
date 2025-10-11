@@ -103,4 +103,71 @@ public class EmployeeRepositoryTests
         Assert.Equal("John", result.FirstName);
         Assert.Equal(entity.Id, result.Id);
     }
+
+    [Fact]
+    public async Task EmployeeRepository_GetEmployeeByEmail_ReturnsEmployee()
+    {
+        // Arrange
+        var context = GetInMemoryContext();
+        var empRepository = new EmployeeRepository(context);
+        var newEmployee = GetSampleEmployee();
+        var entity = await empRepository.AddEmployee(newEmployee);
+
+        // Act
+        var result = await empRepository.GetEmployeeByEmail(entity.Email);
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.IsType<Employee>(result);
+        Assert.Equal(newEmployee.Email, result.Email);
+        Assert.Equal(entity.Id, result.Id);
+    }
+
+    [Fact]
+    public async Task EmployeeRepository_GetEmployees_ReturnsEmployees()
+    {
+        // Arrange
+        var context = GetInMemoryContext();
+        var empRepository = new EmployeeRepository(context);
+        var newEmployee = GetSampleEmployee();
+        var newEmployee1 = GetSampleEmployee();
+        var entity = await empRepository.AddEmployee(newEmployee);
+        var entity1 = await empRepository.AddEmployee(newEmployee1);
+
+        // Act
+        var result = await empRepository.GetEmployees();
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.IsType<List<Employee>>(result);
+        Assert.Equal(2, result.Count());
+    }
+
+    [Fact]
+    public async Task EmployeeRepository_UpdateEmployee_UpdatesEmployees()
+    {
+        // Arrange
+        var context = GetInMemoryContext();
+        var empRepository = new EmployeeRepository(context);
+        var newEmployee = GetSampleEmployee();
+        var entity = await empRepository.AddEmployee(newEmployee);
+        var updatedEmployee = new EmployeeDto 
+        { 
+            FirstName = "Jane",
+            LastName = "Smith",
+            Email = "jane.smith@gmail.com",
+            DateOfBirth = new DateOnly(1995, 06, 15),
+            DepartmentId = Guid.NewGuid(),
+            Gender = Gender.Female
+        };
+
+        // Act
+        var result = await empRepository.UpdateEmployee(entity.Id, updatedEmployee);
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.IsType<Employee>(result);
+        Assert.Equal(updatedEmployee.FirstName, result.FirstName);
+        Assert.Equal(updatedEmployee.Email, result.Email);
+    }
 }
